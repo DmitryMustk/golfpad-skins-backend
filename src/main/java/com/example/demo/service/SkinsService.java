@@ -34,7 +34,8 @@ public class SkinsService {
             scoresByPlayer.put(p.id(), p.scores());
         }
 
-        SkinsCalculator.CalculationResult calc = calculator.calculate(scoresByPlayer, request.holesCount());
+        int holesCount = Integer.min(request.holesCount(), request.players().getFirst().scores().size());
+        SkinsCalculator.CalculationResult calc = calculator.calculate(scoresByPlayer, holesCount);
 
         return responseMapper.toResponse(calc);
     }

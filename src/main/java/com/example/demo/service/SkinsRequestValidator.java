@@ -16,10 +16,9 @@ public class SkinsRequestValidator {
             throw new ApiException("at least one player must be provided", HttpStatus.BAD_REQUEST);
         }
 
-        players.forEach(p -> {
-            if (p.scores().size() != request.holesCount()) {
-                throw new ApiException("all players must have the same number of hole scores", HttpStatus.BAD_REQUEST);
-            }
-        });
+        boolean areEqual = players.stream().map(p -> p.scores().size()).distinct().count() > 2;
+        if (!areEqual) {
+            throw new ApiException("all players must have the same number of hole scores", HttpStatus.BAD_REQUEST);
+        }
     }
 }
